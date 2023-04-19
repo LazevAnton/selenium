@@ -37,17 +37,17 @@ class SocialNetworkScraper:
         if login_required:
             self.social_network_login()
         self.driver.get(self.BLOG_URL)
-        time.sleep(3)
+        time.sleep(1)
         title_form = self.driver.find_element(By.XPATH,
                                               "//div[@class='form-group']/input[@class='form-control'][@id='title']")
         title_form.send_keys(title)
-        time.sleep(3)
+        time.sleep(2)
         content_form = self.driver.find_element(By.XPATH,
                                                 "//div[@class='form-group']/textarea[@class='form-control']"
                                                 "[@id='content']")
         content_form.send_keys(content)
-        time.sleep(3)
+        time.sleep(2)
         create_post_button = self.driver.find_element(By.XPATH, "//button[@type='submit']")
         create_post_button.click()
-        time.sleep(3)
+        time.sleep(2)
         return self.driver
