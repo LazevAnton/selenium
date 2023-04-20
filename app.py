@@ -12,4 +12,3 @@ if __name__ == '__main__':
     email = config.SOCIAL_NETWORK_REGISTER_EMAIL
     service.social_network_register(username,password,email)
     service.create_post(title, content)
-    # print('Done')
