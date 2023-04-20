@@ -12,6 +12,7 @@ class SocialNetworkScraper:
     BASE_URL = f'{config.SOCIAL_NETWORK_HOST}:{config.SOCIAL_NETWORK_PORT}'
     LOGIN_URL = f'{BASE_URL}/auth/login'
     BLOG_URL = f'{BASE_URL}/user/blog'
+    REGISTER_URL = f'{BASE_URL}/auth/register'
 
     def __int__(self):
         self.driver = None
@@ -23,13 +24,36 @@ class SocialNetworkScraper:
         except Exception as e:
             print(e.args)
 
+    def social_network_register(self, username, password, email):
+        driver = self.create_driver()
+        driver.get(self.REGISTER_URL)
+        username_form = driver.find_element(By.XPATH, "//div[@class='form-group']/input[@class='form-control']"
+                                                      "[@id='username']")
+        username_form.send_keys(username)
+        time.sleep(1)
+        email_form = driver.find_element(By.XPATH, "//div[@class='form-group']/input[@class='form-control']"
+                                                   "[@id='email']")
+        email_form.send_keys(email)
+        time.sleep(1)
+        password_form = driver.find_element(By.XPATH, "//div[@class='form-group']/input[@class='form-control']"
+                                                      "[@id='password']")
+        password_form.send_keys(password)
+        time.sleep(1)
+        confirm_pass_form = driver.find_element(By.XPATH, "//div[@class='form-group']/input[@class='form-control']"
+                                                          "[@id='confirm_password']")
+        confirm_pass_form.send_keys(password)
+        time.sleep(1)
+        register_button = driver.find_element(By.XPATH, "//div[@class='form-group']/button")
+        register_button.click()
+        return self.driver
+
     def social_network_login(self):
         driver = self.create_driver()
         driver.get(self.LOGIN_URL)
         username = driver.find_element(By.XPATH, "//div[@class='form-group']/input[@id='username']")
-        username.send_keys(config.SOCIAL_NETWORK_LOGIN)
+        username.send_keys(config.SOCIAL_NETWORK_REGISTER_USER)
         password = driver.find_element(By.XPATH, "//div[@class='form-group']/input[@id='password']")
-        password.send_keys(config.SOCIAL_NETWORK_PASSWORD)
+        password.send_keys(config.SOCIAL_NETWORK_REGISTER_PASSWORD)
         password.send_keys(keys.Keys.ENTER)
         return driver
 
@@ -49,5 +73,10 @@ class SocialNetworkScraper:
         time.sleep(2)
         create_post_button = self.driver.find_element(By.XPATH, "//button[@type='submit']")
         create_post_button.click()
-        time.sleep(2)
+        time.sleep(3)
+        logout_button = self.driver.find_element(By.XPATH, "//div[@class='collapse navbar-collapse']"
+                                                           "/ul[@class='navbar-nav ms-auto']"
+                                                           "/li[@class='nav-item me-2']/a")
+        logout_button.click()
+        time.sleep(5)
         return self.driver
