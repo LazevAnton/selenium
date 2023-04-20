@@ -20,6 +20,7 @@ class SocialNetworkScraper:
     def create_driver(self):
         try:
             self.driver = webdriver.Chrome(executable_path=config.CHROME_DRIVER_PATH)
+            self.driver.maximize_window()
             return self.driver
         except Exception as e:
             print(e.args)
@@ -74,9 +75,10 @@ class SocialNetworkScraper:
         create_post_button = self.driver.find_element(By.XPATH, "//button[@type='submit']")
         create_post_button.click()
         time.sleep(3)
-        logout_button = self.driver.find_element(By.XPATH, "//div[@class='collapse navbar-collapse']"
-                                                           "/ul[@class='navbar-nav ms-auto']"
-                                                           "/li[@class='nav-item me-2']/a")
+        set_like = self.driver.find_element(By.ID, 'post_like')
+        set_like.click()
+        time.sleep(5)
+        logout_button = self.driver.find_element(By.ID, 'logout_btn')
         logout_button.click()
         time.sleep(5)
         return self.driver
